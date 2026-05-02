@@ -1,0 +1,14 @@
+# Dependencies
+node_modules
+
+# Production Build
+dist
+
+# Environment Variables (Crucial for security)
+.env
+
+# Logs and Cache
+.eslintcache
+
+# System Files
+.DS_Store
