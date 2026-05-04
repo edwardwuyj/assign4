@@ -8,9 +8,9 @@ export const Header = () => {
           <h1 className="text-2xl font-bold">TMDB Explorer</h1>
           <LinkGroup
             options={[
-              { label: 'Now Playing', to: '/now-playing' },
+              { label: 'Movies', to: '/movies' },
+              { label: 'TV', to: '/tv' },
               { label: 'Trending', to: '/trending?interval=day' },
-              { label: 'Upcoming', to: '/upcoming' },
               { label: 'Search', to: '/search' },
             ]}
           />

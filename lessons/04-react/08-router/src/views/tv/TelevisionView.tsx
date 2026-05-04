@@ -1,12 +1,12 @@
 import { DetailItem, LinkGroup, Modal } from '@/components';
-import { type MovieRespsonse, getBackdropUrl, getImageUrl, MOVIE_ENDPOINT } from '@/core';
+import { type MovieRespsonse, getBackdropUrl, getImageUrl, TV_ENDPOINT } from '@/core';
 import { useTmdb } from '@/hooks';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
-export const MovieView = () => {
+export const TelevisionView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data } = useTmdb<MovieRespsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' });
+  const { data } = useTmdb<MovieRespsonse>(`${TV_ENDPOINT}/${id}`, { append_to_response: 'videos' });
 
   const trailerVideo =
     data?.videos?.results.find(
@@ -42,6 +42,7 @@ export const MovieView = () => {
             )}
             <LinkGroup
               options={[
+                { label: 'Seasons', to: 'seasons' },
                 { label: 'Credits', to: 'credits' },
                 { label: 'Reviews', to: 'reviews' },
                 { label: 'Trailers', to: 'trailers' },

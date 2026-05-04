@@ -1,8 +1,25 @@
 import { ApiKeyModal } from '@/components';
 import { ApiKeyProvider, useApiKey } from '@/hooks/useApiKey';
 import { MainLayout } from '@/layouts';
-import { CreditsView, ErrorView, HomeView, MovieView, NowPlayingView, ReviewsView, SearchView, TrendingView, UpcomingView } from '@/views';
-import { Route, Routes } from 'react-router-dom';
+import {
+  AiringTodayView,
+  CreditsView,
+  ErrorView,
+  HomeView,
+  MovieView,
+  MoviesView,
+  NowPlayingView,
+  PopularView,
+  ReviewsView,
+  SearchView,
+  TelevisionView,
+  TopRatedView,
+  TrailersView,
+  TrendingView,
+  TvView,
+  UpcomingView,
+} from '@/views';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 const AppRoutes = () => {
   const { hasApiKey } = useApiKey();
@@ -15,16 +32,33 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<HomeView />} />
       <Route element={<MainLayout />}>
-        <Route index element={<NowPlayingView />} />
-        <Route path="now-playing" element={<NowPlayingView />} />
+        <Route path="movies" element={<MoviesView />}>
+          <Route index element={<Navigate to="now-playing" replace />} />
+          <Route path="now-playing" element={<NowPlayingView />} />
+          <Route path="popular" element={<PopularView />} />
+          <Route path="top-rated" element={<TopRatedView />} />
+          <Route path="upcoming" element={<UpcomingView />} />
+        </Route>
 
-        <Route path="upcoming" element={<UpcomingView />} />
+        <Route path="tv" element={<TvView />}>
+          <Route index element={<Navigate to="airing-today" replace />} />
+          <Route path="airing-today" element={<AiringTodayView />} />
+        </Route>
 
-        <Route path="/trending" element={<TrendingView />} />
-        <Route path="/search" element={<SearchView />} />
-        <Route path="/movie/:id" element={<MovieView />}>
+        <Route path="trending" element={<TrendingView />} />
+        <Route path="search" element={<SearchView />} />
+        <Route path="movie/:id" element={<MovieView />}>
           <Route path="credits" element={<CreditsView />} />
           <Route path="reviews" element={<ReviewsView />} />
+          <Route path="trailers" element={<TrailersView />} />
+        </Route>
+        <Route path="tv/:id" element={<TelevisionView />}>
+          <Route path="credits" element={<CreditsView />} />
+          <Route path="reviews" element={<ReviewsView />} />
+          <Route path="trailers" element={<TrailersView />} />
+        </Route>
+        <Route path="now-playing" element={<MoviesView />}>
+          <Route index element={<Navigate to="/movies/now-playing" replace />} />
         </Route>
       </Route>
       <Route path="*" element={<ErrorView />} />

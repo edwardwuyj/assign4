@@ -8,7 +8,7 @@ export const MoviesView = () => {
         <h1 className="text-3xl font-bold">Movies</h1>
         <LinkGroup
           options={[
-            { label: 'Now Playing', to: 'now-playing' },
+            { label: 'Now Playing', to: '/movies/now-playing' },
             { label: 'Popular', to: '/movies/popular' },
             { label: 'Top Rated', to: '/movies/top-rated' },
             { label: 'Upcoming', to: '/movies/upcoming' },
