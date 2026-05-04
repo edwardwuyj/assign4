@@ -18,6 +18,7 @@ import {
   TrendingView,
   TvView,
   UpcomingView,
+  OntheAirView,
 } from '@/views';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -43,6 +44,7 @@ const AppRoutes = () => {
         <Route path="tv" element={<TvView />}>
           <Route index element={<Navigate to="airing-today" replace />} />
           <Route path="airing-today" element={<AiringTodayView />} />
+          <Route path="on-the-air" element={<OntheAirView />} />
         </Route>
 
         <Route path="trending" element={<TrendingView />} />
