@@ -10,6 +10,7 @@ export const Header = () => {
             options={[
               { label: 'Now Playing', to: '/now-playing' },
               { label: 'Trending', to: '/trending?interval=day' },
+              { label: 'Upcoming', to: '/upcoming' },
               { label: 'Search', to: '/search' },
             ]}
           />
@@ -18,3 +19,13 @@ export const Header = () => {
     </header>
   );
 };
+
+/**/
+
+/*                options={[
+              { label: 'Movies', to: '/movies/' },
+              { label: 'TV', to: '/trending?interval=day' },
+              { label: 'Trending', to: '/trending?interval=day' },
+              { label: 'Genre', to: '/upcoming' },
+              { label: 'Search', to: '/search' },
+               */

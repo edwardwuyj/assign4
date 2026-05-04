@@ -1,17 +1,23 @@
+import { useApiKey } from '@/hooks/useApiKey';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export function useTmdb<T>(url: string, params: Record<string, unknown>) {
+  const { apiKey } = useApiKey();
   const [data, setData] = useState<T | null>(null);
 
   useEffect(() => {
+    if (!apiKey) {
+      return;
+    }
+
     const controller = new AbortController();
 
     const fetchData = async () => {
       try {
         const response = await axios.get<T>(url, {
           params: {
-            api_key: import.meta.env.VITE_TMDB_API_KEY,
+            api_key: apiKey,
             ...params,
           },
           signal: controller.signal,
@@ -26,7 +32,7 @@ export function useTmdb<T>(url: string, params: Record<string, unknown>) {
     fetchData();
 
     return () => controller.abort();
-  }, [url, params]);
+  }, [apiKey, url, params]);
 
   return { data };
 }
