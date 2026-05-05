@@ -5,6 +5,8 @@ import {
   AiringTodayView,
   CreditsView,
   ErrorView,
+  GenreView,
+  GenresView,
   HomeView,
   MovieView,
   MoviesView,
@@ -19,8 +21,8 @@ import {
   TelevisionView,
   TopRatedView,
   TrailersView,
-  TrendingsView,
   TrendingView,
+  TrendingsView,
   TvView,
   UpcomingView,
 } from '@/views';
@@ -43,6 +45,13 @@ const AppRoutes = () => {
           <Route path="popular" element={<PopularView />} />
           <Route path="top-rated" element={<TopRatedView />} />
           <Route path="upcoming" element={<UpcomingView />} />
+        </Route>
+
+        <Route path="genres">
+          <Route index element={<Navigate to="movies" replace />} />
+          <Route path=":media" element={<GenresView />}>
+            <Route path=":genreId" element={<GenreView />} />
+          </Route>
         </Route>
 
         <Route path="tv" element={<TvView />}>

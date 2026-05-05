@@ -1,12 +1,12 @@
 import { useApiKey } from '@/hooks/useApiKey';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export function useTmdb<T>(url: string, params: Record<string, unknown>) {
   const { apiKey } = useApiKey();
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const paramsString = JSON.stringify(params);
+  const paramsString = useMemo(() => JSON.stringify(params), [params]);
 
   useEffect(() => {
     if (!apiKey) {

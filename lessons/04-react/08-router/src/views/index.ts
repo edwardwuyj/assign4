@@ -4,6 +4,8 @@ export * from './movies/MovieView';
 export * from './movies/NowPlayingView';
 export * from './movies/PopularViewMovie';
 
+export * from './genre/GenresView';
+export * from './genre/GenreView';
 export * from './movies/ReviewsView';
 export * from './movies/SearchView';
 export * from './movies/TopRatedView';
@@ -11,8 +13,8 @@ export * from './movies/TrailersView';
 export * from './movies/UpcomingView';
 export * from './site/ErrorView';
 export * from './site/HomeView';
-export * from './trending/TrendingView';
 export * from './trending/TrendingsView';
+export * from './trending/TrendingView';
 export * from './trending/TVTrendingView';
 export * from './tv/AiringToday';
 export * from './tv/OntheAir';

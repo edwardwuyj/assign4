@@ -24,7 +24,6 @@ export const TVTrendingView = () => {
   return (
     <section className="mx-auto max-w-7xl space-y-5 p-5">
       <div className="mb-4 flex items-center justify-between">
-
         <ButtonGroup
           value={interval}
           options={[

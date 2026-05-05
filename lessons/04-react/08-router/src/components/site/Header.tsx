@@ -11,6 +11,7 @@ export const Header = () => {
               { label: 'Movies', to: '/movies' },
               { label: 'TV', to: '/tv' },
               { label: 'Trending', to: '/trending' },
+              { label: 'Genre', to: '/genres' },
               { label: 'Search', to: '/search' },
             ]}
           />
