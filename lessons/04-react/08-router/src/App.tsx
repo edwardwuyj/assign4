@@ -9,9 +9,12 @@ import {
   MovieView,
   MoviesView,
   NowPlayingView,
+  OntheAirView,
   PopularView,
   ReviewsView,
   SearchView,
+  TVPopularView,
+  TVTopRatedView,
   TelevisionView,
   TopRatedView,
   TrailersView,
@@ -43,6 +46,9 @@ const AppRoutes = () => {
         <Route path="tv" element={<TvView />}>
           <Route index element={<Navigate to="airing-today" replace />} />
           <Route path="airing-today" element={<AiringTodayView />} />
+          <Route path="on-the-air" element={<OntheAirView />} />
+          <Route path="top-rated" element={<TVTopRatedView />} />
+          <Route path="popular" element={<TVPopularView />} />
         </Route>
 
         <Route path="trending" element={<TrendingView />} />

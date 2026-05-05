@@ -39,7 +39,7 @@ export type ReviewsResponse = {
   }>;
 };
 
-// This type is used for the trailers view, which is a child of the movie view. The movie view already fetches the videos, so we can reuse that data instead of making another API call.
+// this type is used for the trailers view, which is a child of movie view. movie view already fetches the videos, so we can reuse that data yippie
 export type VideosResponse = {
   results: Array<{
     key: string;

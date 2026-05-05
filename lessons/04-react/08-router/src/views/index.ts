@@ -2,7 +2,8 @@ export * from './movies/CreditsView';
 export * from './movies/MoviesView';
 export * from './movies/MovieView';
 export * from './movies/NowPlayingView';
-export * from './movies/PopularView';
+export * from './movies/PopularViewMovie';
+
 export * from './movies/ReviewsView';
 export * from './movies/SearchView';
 export * from './movies/TopRatedView';
@@ -15,3 +16,5 @@ export * from './tv/AiringToday';
 export * from './tv/OntheAir';
 export * from './tv/TelevisionsView';
 export * from './tv/TelevisionView';
+export * from './tv/TVPopularView';
+export * from './tv/TVTopRatedView';
