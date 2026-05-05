@@ -10,7 +10,7 @@ export const Header = () => {
             options={[
               { label: 'Movies', to: '/movies' },
               { label: 'TV', to: '/tv' },
-              { label: 'Trending', to: '/trending?interval=day' },
+              { label: 'Trending', to: '/trending' },
               { label: 'Search', to: '/search' },
             ]}
           />
