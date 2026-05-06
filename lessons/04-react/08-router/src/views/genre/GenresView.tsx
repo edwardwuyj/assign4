@@ -50,7 +50,6 @@ export const GenresView = () => {
             key={genre.id}
             to={`/genres/${activeMedia}/${genre.id}`}
             className="rounded-2xl border border-gray-700 bg-gray-900 px-2 py-3 text-center text-sm font-semibold text-gray-200 transition hover:border-white hover:bg-gray-800"
-
           >
             {genre.label}
           </Link>

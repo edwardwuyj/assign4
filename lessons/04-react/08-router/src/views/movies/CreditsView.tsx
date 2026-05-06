@@ -1,9 +1,10 @@
 import { ImageGrid } from '@/components';
 import { getImageUrl, MOVIE_ENDPOINT, type CreditsResponse, type ImageCell } from '@/core';
 import { useTmdb } from '@/hooks';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const CreditsView = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data } = useTmdb<CreditsResponse>(`${MOVIE_ENDPOINT}/${id}/credits`, {});
 
@@ -21,7 +22,15 @@ export const CreditsView = () => {
   return (
     <section className="space-y-5 p-5">
       <h2 className="mb-6 text-2xl font-bold">Credits</h2>
-      {data.cast.length ? <ImageGrid images={gridData} /> : <p className="text-center text-gray-400">No credits available.</p>}
+      {data.cast.length ? (
+        <ImageGrid
+          images={gridData}
+          // actor cards navigate to the person detail modal when clicked
+          onClick={(image) => navigate(`/person/${image.id}`)}
+        />
+      ) : (
+        <p className="text-center text-gray-400">No credits available.</p>
+      )}
     </section>
   );
 };

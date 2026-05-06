@@ -15,3 +15,4 @@ export const TV_TOP_RATED_ENDPOINT = 'https://api.themoviedb.org/3/tv/top_rated'
 export const TV_POPULAR_ENDPOINT = 'https://api.themoviedb.org/3/tv/popular';
 export const GENRE_ENDPOINT = 'https://api.themoviedb.org/3/genre/movie/list';
 export const TV_GENRE_ENDPOINT = 'https://api.themoviedb.org/3/genre/tv/list';
+export const PERSON_ENDPOINT = 'https://api.themoviedb.org/3/person';

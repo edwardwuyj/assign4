@@ -3,18 +3,23 @@ import { ApiKeyProvider, useApiKey } from '@/hooks/useApiKey';
 import { MainLayout } from '@/layouts';
 import {
   AiringTodayView,
+  CareerView,
   CreditsView,
+  EpisodeView,
   ErrorView,
   GenreView,
   GenresView,
   HomeView,
+  ImagesView,
   MovieView,
   MoviesView,
   NowPlayingView,
   OntheAirView,
+  PersonView,
   PopularView,
   ReviewsView,
   SearchView,
+  SeasonsView,
   TVPopularView,
   TVTopRatedView,
   TVTrendingView,
@@ -49,9 +54,8 @@ const AppRoutes = () => {
 
         <Route path="genres">
           <Route index element={<Navigate to="movies" replace />} />
-          <Route path=":media" element={<GenresView />}>
-            <Route path=":genreId" element={<GenreView />} />
-          </Route>
+          <Route path=":media" element={<GenresView />} />
+          <Route path=":media/:genreId" element={<GenreView />} />
         </Route>
 
         <Route path="tv" element={<TvView />}>
@@ -78,9 +82,18 @@ const AppRoutes = () => {
           <Route path="credits" element={<CreditsView />} />
           <Route path="reviews" element={<ReviewsView />} />
           <Route path="trailers" element={<TrailersView />} />
+          <Route path="seasons" element={<SeasonsView />} />
+          <Route path="season/:season" element={<EpisodeView />} />
         </Route>
+
         <Route path="now-playing" element={<MoviesView />}>
           <Route index element={<Navigate to="/movies/now-playing" replace />} />
+        </Route>
+
+        {/*person detail routesactor biography plus career and image tabs */}
+        <Route path="person/:id" element={<PersonView />}>
+          <Route path="career" element={<CareerView />} />
+          <Route path="images" element={<ImagesView />} />
         </Route>
       </Route>
       <Route path="*" element={<ErrorView />} />
