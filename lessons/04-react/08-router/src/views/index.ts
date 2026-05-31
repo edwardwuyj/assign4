@@ -4,6 +4,8 @@ export * from './movies/MovieView';
 export * from './movies/NowPlayingView';
 export * from './movies/PopularViewMovie';
 
+export * from './CartView';
+export * from './FavoritesView';
 export * from './genre/GenresView';
 export * from './genre/GenreView';
 export * from './movies/ReviewsView';
@@ -14,6 +16,7 @@ export * from './movies/UpcomingView';
 export * from './person/CareerView';
 export * from './person/ImagesView';
 export * from './person/PersonView';
+export * from './SettingsView';
 export * from './site/ErrorView';
 export * from './site/HomeView';
 export * from './trending/TrendingsView';

@@ -1,20 +1,35 @@
 import { ImageGrid, Pagination, SearchBar } from '@/components';
 import { type ImageCell, type MovieRespsonse, getImageUrl, RATE_LIMIT_DELAY, SEARCH_ENDPOINT } from '@/core';
-import { useDebounce, useTmdb } from '@/hooks';
+import { useDebounce, useStore, useTmdb } from '@/hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const SearchView = () => {
   const navigate = useNavigate();
+  const { addFavorite, favorites } = useStore();
   const [query, setQuery] = useState('');
   const [page, setPage] = useState<number>(1);
   const debouncedQuery = useDebounce(query, RATE_LIMIT_DELAY);
   const { data } = useTmdb<MovieRespsonse>(SEARCH_ENDPOINT, { query: debouncedQuery, page });
 
+  const handleFavorite = (image: ImageCell) => {
+    addFavorite({
+      id: image.id,
+      media: 'movie',
+      title: image.primaryText,
+      poster_path: image.posterPath ?? '',
+      release_date: image.releaseDate ?? '',
+    });
+    navigate('/favorites');
+  };
+
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
     imageUrl: getImageUrl(result.poster_path),
     primaryText: result.original_title,
+    posterPath: result.poster_path,
+    releaseDate: result.release_date,
+    isFavorite: favorites.some((favorite) => favorite.id === result.id && favorite.media === 'movie'),
   }));
 
   if (!data) {
@@ -31,6 +46,7 @@ export const SearchView = () => {
           setPage(1);
           navigate(`/movie/${image.id}/credits`);
         }}
+        onFavoriteClick={handleFavorite}
       />
       {data.results.length ? (
         <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />

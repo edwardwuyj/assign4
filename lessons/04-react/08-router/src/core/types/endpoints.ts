@@ -7,6 +7,7 @@ export type MovieRespsonse = {
   release_date: string;
   vote_average: string;
   results: Array<{
+    release_date?: string;
     id: number;
     original_title: string;
     poster_path: string;
@@ -19,6 +20,36 @@ export type MovieRespsonse = {
       type: string;
     }>;
   };
+  total_pages: number;
+};
+
+export type TvShowResponse = {
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  first_air_date: string;
+  vote_average: string;
+  videos?: {
+    results: Array<{
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+    }>;
+  };
+};
+
+export type TvListResponse = {
+  page: number;
+  results: Array<{
+    first_air_date?: string;
+    id: number;
+    poster_path: string;
+    name: string;
+    original_name: string;
+  }>;
   total_pages: number;
 };
 
@@ -55,6 +86,7 @@ export type Season = {
   episode_count: number;
   poster_path: string;
   season_number: number;
+  air_date?: string;
 };
 
 export type SeasonsResponse = {

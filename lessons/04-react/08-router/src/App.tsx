@@ -1,5 +1,6 @@
 import { ApiKeyModal } from '@/components';
 import { ApiKeyProvider, useApiKey } from '@/hooks/useApiKey';
+import { StoreProvider } from '@/hooks/useStore';
 import { MainLayout } from '@/layouts';
 import {
   AiringTodayView,
@@ -31,6 +32,9 @@ import {
   TvView,
   UpcomingView,
 } from '@/views';
+import { CartView } from '@/views/CartView';
+import { FavoritesView } from '@/views/FavoritesView';
+import { SettingsView } from '@/views/SettingsView';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 const AppRoutes = () => {
@@ -73,6 +77,9 @@ const AppRoutes = () => {
         </Route>
 
         <Route path="search" element={<SearchView />} />
+        <Route path="cart" element={<CartView />} />
+        <Route path="favorites" element={<FavoritesView />} />
+        <Route path="settings" element={<SettingsView />} />
         <Route path="movie/:id" element={<MovieView />}>
           <Route path="credits" element={<CreditsView />} />
           <Route path="reviews" element={<ReviewsView />} />
@@ -103,6 +110,8 @@ const AppRoutes = () => {
 
 export const App = () => (
   <ApiKeyProvider>
-    <AppRoutes />
+    <StoreProvider>
+      <AppRoutes />
+    </StoreProvider>
   </ApiKeyProvider>
 );

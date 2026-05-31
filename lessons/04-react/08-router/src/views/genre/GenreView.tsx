@@ -1,6 +1,6 @@
 import { ImageGrid, Pagination } from '@/components';
 import { DISCOVER_MOVIE_ENDPOINT, DISCOVER_TV_ENDPOINT, getImageUrl, type ImageCell } from '@/core';
-import { useTmdb } from '@/hooks';
+import { type MovieStoreItem, type TvShowStoreItem, useStore, useTmdb } from '@/hooks';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -40,6 +40,8 @@ type GenreResult = {
   original_title?: string;
   original_name?: string;
   name?: string;
+  release_date?: string;
+  first_air_date?: string;
 };
 
 type GenreResponse = {
@@ -54,6 +56,8 @@ export const GenreView = () => {
   const endpoint = media === 'tv' ? DISCOVER_TV_ENDPOINT : DISCOVER_MOVIE_ENDPOINT;
   const { data, error } = useTmdb<GenreResponse>(endpoint, { page, with_genres: genreId });
 
+  const { addFavorite, favorites } = useStore();
+
   const genreName = useMemo(() => {
     return GENRES[media as 'movies' | 'tv']?.find((genre) => genre.id === genreId)?.label ?? 'Genre';
   }, [genreId, media]);
@@ -66,10 +70,38 @@ export const GenreView = () => {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
 
+  const handleFavorite = (image: ImageCell) => {
+    if (media === 'tv') {
+      const favorite: TvShowStoreItem = {
+        id: image.id,
+        media: 'tv-show',
+        title: image.primaryText,
+        poster_path: image.posterPath ?? '',
+        first_air_date: image.airDate ?? '',
+      };
+      addFavorite(favorite);
+    } else {
+      const favorite: MovieStoreItem = {
+        id: image.id,
+        media: 'movie',
+        title: image.primaryText,
+        poster_path: image.posterPath ?? '',
+        release_date: image.releaseDate ?? '',
+      };
+      addFavorite(favorite);
+    }
+
+    navigate('/favorites');
+  };
+
   const gridData: ImageCell[] = (data.results ?? []).map((result) => ({
     id: result.id,
     imageUrl: getImageUrl(result.poster_path),
     primaryText: result.original_title || result.original_name || result.name || 'Untitled',
+    posterPath: result.poster_path,
+    releaseDate: result.release_date,
+    airDate: result.first_air_date,
+    isFavorite: favorites.some((favorite) => favorite.id === result.id && favorite.media === (media === 'tv' ? 'tv-show' : 'movie')),
   }));
 
   return (
@@ -80,7 +112,11 @@ export const GenreView = () => {
           <p className="text-sm text-gray-400">Showing {genreName} titles</p>
         </div>
       </div>
-      <ImageGrid images={gridData} onClick={(image) => navigate(`/${media === 'tv' ? 'tv' : 'movie'}/${image.id}/credits`)} />
+      <ImageGrid
+        images={gridData}
+        onClick={(image) => navigate(`/${media === 'tv' ? 'tv' : 'movie'}/${image.id}/credits`)}
+        onFavoriteClick={handleFavorite}
+      />
       <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
     </section>
   );

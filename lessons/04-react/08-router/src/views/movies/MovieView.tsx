@@ -1,10 +1,11 @@
-import { DetailItem, LinkGroup, Modal } from '@/components';
+import { Button, DetailItem, LinkGroup, Modal } from '@/components';
 import { type MovieRespsonse, getBackdropUrl, getImageUrl, MOVIE_ENDPOINT } from '@/core';
-import { useTmdb } from '@/hooks';
+import { getItemPrice, useStore, useTmdb } from '@/hooks';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 export const MovieView = () => {
   const navigate = useNavigate();
+  const { cart, favorites, addFavorite, addToCart, removeFavorite, removeFromCart } = useStore();
   const { id } = useParams();
   const { data } = useTmdb<MovieRespsonse>(`${MOVIE_ENDPOINT}/${id}`, { append_to_response: 'videos' });
 
@@ -16,6 +17,18 @@ export const MovieView = () => {
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
+
+  const movieItem = {
+    id: data.id,
+    media: 'movie' as const,
+    title: data.title,
+    poster_path: data.poster_path,
+    release_date: data.release_date,
+  };
+
+  const isFavorite = favorites.some((item) => item.id === movieItem.id && item.media === movieItem.media);
+  const isInCart = cart.some((item) => item.id === movieItem.id && item.media === movieItem.media);
+  const price = getItemPrice(movieItem);
 
   return (
     <Modal onClick={() => navigate(-1)}>
@@ -40,6 +53,17 @@ export const MovieView = () => {
                 />
               </div>
             )}
+            <div className="flex flex-wrap gap-3 pt-3">
+              <Button
+                variant={isFavorite ? 'grey' : 'primary'}
+                onClick={() => (isFavorite ? removeFavorite(movieItem) : addFavorite(movieItem))}
+              >
+                {isFavorite ? 'Remove Favorite' : 'Add Favorite'}
+              </Button>
+              <Button variant={isInCart ? 'grey' : 'primary'} onClick={() => (isInCart ? removeFromCart(movieItem) : addToCart(movieItem))}>
+                {isInCart ? 'Remove from Cart' : `Add to Cart ${price ? `$${price.toFixed(2)}` : ''}`}
+              </Button>
+            </div>
             <LinkGroup
               options={[
                 { label: 'Credits', to: 'credits' },
