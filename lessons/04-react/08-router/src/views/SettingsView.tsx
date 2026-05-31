@@ -4,10 +4,12 @@ import type { ChangeEvent } from 'react';
 export const SettingsView = () => {
   const { username, setUsername, genrePreferences, setGenrePreferences } = useStore();
 
+  // runs whenever username change, saves to localstorage and updates state
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
 
+  // takes type movies or tv and genre value, checks if genre is already in preferences, if it is remove it, if not add it, then update state and localstorage
   const toggleGenre = (type: 'movies' | 'tv', genre: string) => {
     const current = genrePreferences[type];
     const updated = current.includes(genre) ? current.filter((item) => item !== genre) : [...current, genre];

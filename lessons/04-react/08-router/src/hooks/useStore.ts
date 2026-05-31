@@ -32,6 +32,7 @@ export type GenrePreferences = {
 };
 
 const loadFromStorage = <T>(key: string, fallback: T): T => {
+  // func to load data from Local Storage
   try {
     const raw = localStorage.getItem(key);
     if (!raw) {
@@ -73,8 +74,8 @@ export const getItemPrice = (item: StoreItem): number | null => {
 export const formatPrice = (price: number) => `$${price.toFixed(2)}`;
 
 const useStoreState = () => {
-  const [username, setUsername] = useState(() => loadFromStorage('username', ''));
-  const [favorites, setFavorites] = useState<StoreItem[]>(() => loadFromStorage('favorites', []));
+  const [username, setUsername] = useState(() => loadFromStorage('username', '')); // loads saved username on startup, empty str if not found
+  const [favorites, setFavorites] = useState<StoreItem[]>(() => loadFromStorage('favorites', [])); // same everywhere
   const [cart, setCart] = useState<StoreItem[]>(() => loadFromStorage('cart', []));
   const [genrePreferences, setGenrePreferences] = useState<GenrePreferences>(() =>
     loadFromStorage('genrePreferences', { movies: [], tv: [] })
@@ -97,9 +98,10 @@ const useStoreState = () => {
   }, [genrePreferences]);
 
   const addFavorite = (item: StoreItem) => {
-    setCart((current) => current.filter((cartItem) => cartItem.id !== item.id || cartItem.media !== item.media));
+    setCart((current) => current.filter((cartItem) => cartItem.id !== item.id || cartItem.media !== item.media)); // dont want duplicates in cart and favorites, so remove from cart when adding to favorites
     setFavorites((current) => {
       if (current.some((currentItem) => currentItem.id === item.id && currentItem.media === item.media)) {
+        // checks if item is already in favorites
         return current;
       }
       return [...current, item];
@@ -125,7 +127,7 @@ const useStoreState = () => {
 
   useEffect(() => {
     localStorage.setItem('username', username);
-  }, [username]);
+  }, [username]); // saves username to Local Storage whenever it changes
 
   // same here
 
@@ -138,18 +140,19 @@ const useStoreState = () => {
     setGenrePreferences,
     addFavorite,
     addToCart,
-    removeFavorite: (item: StoreItem) => setFavorites((current) => current.filter((fav) => fav.id !== item.id || fav.media !== item.media)),
+    removeFavorite: (item: StoreItem) => setFavorites((current) => current.filter((fav) => fav.id !== item.id || fav.media !== item.media)), // removes item from favorites when user clicks remove button in favorites or add to cart which also removes from favorites
     removeFromCart: (item: StoreItem) =>
-      setCart((current) => current.filter((cartItem) => cartItem.id !== item.id || cartItem.media !== item.media)),
+      setCart((current) => current.filter((cartItem) => cartItem.id !== item.id || cartItem.media !== item.media)), // removes item from cart when user clicks remove button in cart or add to favorites which also removes from cart
   };
 };
 
 const StoreContext = createContext<ReturnType<typeof useStoreState> | undefined>(undefined);
 
 export const StoreProvider = ({ children }: { children: ReactNode }) => {
+  // component that provides the store context to child, should wrap the entire app in index.tsx
   const store = useStoreState();
 
-  return React.createElement(StoreContext.Provider, { value: store }, children);
+  return React.createElement(StoreContext.Provider, { value: store }, children); // provides the store context to child components
 };
 
 export const useStore = () => {
